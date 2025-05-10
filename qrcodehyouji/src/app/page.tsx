@@ -1,103 +1,110 @@
+'use client';
+
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import { exhibitionItems } from "./exhibition.data";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [current, setCurrent] = useState(0);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % exhibitionItems.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const item = exhibitionItems[current];
+
+  return (
+    <div className="h-screen w-full flex items-stretch justify-stretch bg-gradient-to-br from-gray-100 via-white to-gray-200 dark:from-[#181818] dark:via-[#232323] dark:to-[#222] relative">
+      {/* 左上のラベル */}
+      <div className="absolute top-4 left-6 text-xs text-gray-400 tracking-widest select-none z-20">
+        2025年5月祭精密工学科
+      </div>
+      {/* メインコンテンツ */}
+      <div className="flex flex-1 flex-col md:flex-row w-full h-full">
+        {/* 左側：展示 */}
+        <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 md:py-0 md:px-16 relative overflow-hidden min-h-[60vh]">
+          <AnimatePresence mode="wait">
+            <motion.h2
+              key={item.title}
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 30 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+              className="text-4xl md:text-5xl font-extrabold mb-6 text-center text-gray-800 dark:text-gray-100 tracking-tight drop-shadow-sm"
+            >
+              {item.title}
+            </motion.h2>
+          </AnimatePresence>
+          <div className="w-full flex justify-center items-center mb-8 min-h-[400px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={item.file}
+                initial={{ opacity: 0, x: 60 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -60 }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
+                className="w-full flex justify-center items-center"
+              >
+                {item.type === 'image' ? (
+                  <Image
+                    src={item.file}
+                    alt={item.title}
+                    width={800}
+                    height={500}
+                    className="rounded-2xl shadow-xl object-contain max-h-[500px] bg-white/60 dark:bg-black/30"
+                    style={{ maxHeight: 500 }}
+                  />
+                ) : (
+                  <motion.video
+                    src={item.file}
+                    width={800}
+                    height={500}
+                    className="rounded-2xl shadow-xl object-contain max-h-[500px] bg-black/60"
+                    style={{ maxHeight: 500 }}
+                    controls
+                    loop
+                    autoPlay
+                    muted
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.95, opacity: 0 }}
+                    transition={{ duration: 0.7 }}
+                  />
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={item.title + item.description}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+              className="w-full flex flex-col items-center"
+            >
+              <p className="text-lg md:text-xl text-center text-gray-600 dark:text-gray-300 max-w-2xl bg-white/60 dark:bg-black/30 rounded-xl px-6 py-4 shadow-sm mt-2">
+                {item.description}
+              </p>
+            </motion.div>
+          </AnimatePresence>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        {/* 右側：QRコード */}
+        <div className="w-full md:w-[420px] flex flex-col items-center justify-center bg-gray-50 dark:bg-[#222] p-10 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-700 min-h-[60vh]">
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/QRcode.png"
+            alt="QRコード"
+            width={220}
+            height={220}
+            className="mb-6 drop-shadow-lg"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <span className="text-base text-gray-500 dark:text-gray-400">精密工学科に投票をお願いします</span>
+        </div>
+      </div>
     </div>
   );
 }
