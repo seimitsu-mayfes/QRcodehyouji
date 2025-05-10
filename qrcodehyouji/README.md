@@ -34,3 +34,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## 注意: three.js + 画像テクスチャとNext.js App Routerの開発環境について
+
+- three.jsで画像テクスチャ（TextureLoader）を使う場合、Next.jsのApp Router（src/app/）の**開発環境（npm run dev）ではWebGLのContext Lostエラーが高確率で発生します**。
+- これはReact 18のStrictModeによる二重マウントや、App Routerの再レンダー仕様が原因です。
+- **本番ビルド（npm run build && npm start）では問題なく動作します。**
+- 開発時は `/cube-noimage` ページ（6面が単色のキューブ）を使うことで、WebGLリソースエラーを回避できます。
+- 画像付きの動作確認は本番ビルドで行ってください。

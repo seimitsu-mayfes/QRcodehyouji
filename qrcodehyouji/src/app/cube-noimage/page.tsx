@@ -46,6 +46,16 @@ function CubeNoImage() {
           />
         ))}
       </mesh>
+      {/* 下向き円錐（上側） */}
+      <mesh position={[0, 2.2, 0]} rotation={[Math.PI, 0, 0]}>
+        <coneGeometry args={[1.2, 2.8, 32]} />
+        <meshStandardMaterial color="yellow" transparent opacity={0.4} />
+      </mesh>
+      {/* 上向き円錐（下側） */}
+      <mesh position={[0, -2.2, 0]}>
+        <coneGeometry args={[1.2, 2.8, 32]} />
+        <meshStandardMaterial color="yellow" transparent opacity={0.4} />
+      </mesh>
     </group>
   );
 }
