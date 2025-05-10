@@ -43,6 +43,14 @@ function Cube({ images }: { images: string[] }) {
           />
         ))}
       </mesh>
+      <mesh position={[0, 2.2, 0]} rotation={[Math.PI, 0, 0]}>
+        <coneGeometry args={[1.2, 2.8, 32]} />
+        <meshStandardMaterial color="yellow" transparent opacity={0.4} />
+      </mesh>
+      <mesh position={[0, -2.2, 0]}>
+        <coneGeometry args={[1.2, 2.8, 32]} />
+        <meshStandardMaterial color="yellow" transparent opacity={0.4} />
+      </mesh>
     </group>
   );
 }
