@@ -2,70 +2,45 @@ import { ExhibitionItem } from "./exhibition.types";
 
 export const exhibitionItems: ExhibitionItem[] = [
   {
-    file: "/exhibitionimage/photo1.png",
-    title: "展示A",
-    description: "これは展示Aの説明です。",
+    file: "/exhibitionimage/switch.JPG",
+    title: "精密スイッチ",
+    description: "毎年恒例の精密スイッチが今年も登場！",
     type: "image",
   },
   {
-    file: "/exhibitionimage/photo2.png",
-    title: "展示B",
-    description: "これは展示Bの説明です。",
-    type: "image",
-  },
-  {
-    file: "/exhibitionimage/photo3.png",
-    title: "展示C",
-    description: "これは展示Cの説明です。",
-    type: "image",
-  },
-  {
-    file: "/exhibitionimage/photo4.png",
-    title: "展示D",
-    description: "これは展示Dの説明です。",
-    type: "image",
-  },
-  {
-    file: "/exhibitionimage/test1.png",
-    title: "展示E",
-    description: "これは展示Eの説明です。",
-    type: "image",
-  },
-  {
-    file: "/exhibitionimage/test3.png",
-    title: "展示F",
-    description: "これは展示Fの説明です。",
-    type: "image",
-  },
-  {
-    file: "/exhibitionimage/movie1.mp4",
-    title: "展示G（動画）",
-    description: "これは展示Gの動画説明です。",
+    file: "/exhibitionimage/grider.mp4",
+    title: "グライダー動画",
+    description: "東京の街をグライダーで飛び回ろう！",
     type: "video",
   },
   {
-    file: "/exhibitionimage/movie2.mp4",
-    title: "展示H（動画）",
-    description: "これは展示Hの動画説明です。",
+    file: "/exhibitionimage/robosoccer.MP4",
+    title: "ロボサッカー動画",
+    description: "ロボットでサッカーしよう！",
     type: "video",
   },
   {
-    file: "/exhibitionimage/movie3.mp4",
-    title: "展示I（動画）",
-    description: "これは展示Iの動画説明です。",
+    file: "/exhibitionimage/arm5s.mp4",
+    title: "ロボットアーム動画",
+    description: "ロボットアームと会話しよう!",
+    type: "video",
+  },
+  {
+    file: "/exhibitionimage/vrserviver.mp4",
+    title: "VRサバイバー動画",
+    description: "VR世界で生き抜け!",
     type: "video",
   },
 ];
 
 // キューブの6面に使う画像（5面は画像、1面はSVGの?マーク）
 export const cubeImages: string[] = [
-  "/exhibitionimage/photo1.png",
-  "/exhibitionimage/photo2.png",
-  "/exhibitionimage/photo3.png",
-  "/exhibitionimage/photo4.png",
-  // 5面目: ?マークSVG
-  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><defs><radialGradient id='g' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23fff'/><stop offset='100%' stop-color='%23b3b3b3'/></radialGradient></defs><rect width='512' height='512' rx='0' fill='url(%23g)'/><text x='50%' y='55%' text-anchor='middle' font-size='320' font-family='Arial Black,Arial,sans-serif' fill='%23444' stroke='%23fff' stroke-width='16' dy='.35em'>?</text></svg>",
-  "/exhibitionimage/test3.png",
+  "/exhibitionimage/switch.png",
+  "/exhibitionimage/grider.png",
+  "/exhibitionimage/robosoccer.png",
+  "/exhibitionimage/robotarm.png",
+  "/exhibitionimage/vrsurviver.png",
+  "/QRcode.png",
 ];
 
 export default cubeImages; 

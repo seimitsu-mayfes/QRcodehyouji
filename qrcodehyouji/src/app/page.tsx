@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % exhibitionItems.length);
-    }, 4000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
