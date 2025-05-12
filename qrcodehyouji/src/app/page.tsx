@@ -96,7 +96,7 @@ export default function Home() {
         {/* 右側：QRコード */}
         <div className="w-full md:w-[420px] flex flex-col items-center justify-center bg-gray-50 dark:bg-[#222] p-10 border-t md:border-t-0 md:border-l border-gray-200 dark:border-gray-700 min-h-[60vh]">
           <Image
-            src="/QRcode.png"
+            src="/QRcode.png?v2"
             alt="QRコード"
             width={220}
             height={220}
