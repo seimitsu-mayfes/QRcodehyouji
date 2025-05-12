@@ -102,7 +102,10 @@ export default function Home() {
             height={220}
             className="mb-6 drop-shadow-lg"
           />
-          <span className="text-base text-gray-500 dark:text-gray-400">精密工学科に投票をお願いします</span>
+          <span className="text-base text-gray-500 dark:text-gray-400">
+            精密工学科に投票をお願いします<br />
+            投票にはLINEでのログインが必要です
+          </span>
         </div>
       </div>
     </div>

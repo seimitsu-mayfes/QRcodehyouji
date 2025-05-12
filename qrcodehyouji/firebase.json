@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "public": "out",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      { "source": "/cube", "destination": "/cube.html" },
+      { "source": "/exhibition", "destination": "/exhibition.html" }
+    ]
+  }
+}
