@@ -5,6 +5,22 @@ import { useState, useEffect } from "react";
 import { exhibitionItems } from "./exhibition.data";
 import { motion, AnimatePresence } from "framer-motion";
 
+function CustomVideo({ src }: { src: string }) {
+  return (
+    <div style={{ position: "relative", width: 800, height: 500 }}>
+      <video
+        src={src}
+        width={800}
+        height={500}
+        autoPlay
+        loop
+        muted
+        style={{ borderRadius: 16, objectFit: "contain", width: "100%", height: "100%" }}
+      />
+    </div>
+  );
+}
+
 export default function Home() {
   const [current, setCurrent] = useState(0);
 
@@ -59,21 +75,7 @@ export default function Home() {
                     style={{ maxHeight: 500 }}
                   />
                 ) : (
-                  <motion.video
-                    src={item.file}
-                    width={800}
-                    height={500}
-                    className="rounded-2xl shadow-xl object-contain max-h-[500px] bg-black/60"
-                    style={{ maxHeight: 500 }}
-                    controls
-                    loop
-                    autoPlay
-                    muted
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.95, opacity: 0 }}
-                    transition={{ duration: 0.7 }}
-                  />
+                  <CustomVideo src={item.file} />
                 )}
               </motion.div>
             </AnimatePresence>
