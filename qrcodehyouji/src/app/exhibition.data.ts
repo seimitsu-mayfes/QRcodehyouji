@@ -49,6 +49,18 @@ export const exhibitionItems: ExhibitionItem[] = [
     description: "実際に体を動かして障害物を飛び越えよう！",
     type: "image",
   },
+  {
+    file: "/exhibitionimage/edge_color_5s.mp4",
+    title: "エッジ塗り絵",
+    description: "足跡のあなただけの塗り絵を。",
+    type: "video",
+  },
+  {
+    file: "/exhibitionimage/ari_5s.mp4",
+    title: "アリの行列シミュレーション",
+    description: "フェロモンを用いたアリの行列シミュレーション。",
+    type: "video",
+  },
 ];
 
 // キューブの6面に使う画像（5面は画像、1面はSVGの?マーク）
@@ -58,6 +70,16 @@ export const cubeImages: string[] = [
   "/exhibitionimage/robosoccer.png",
   "/exhibitionimage/robotarm.png",
   "/exhibitionimage/vrsurviver.png",
+  "/QRcode.png?v2",
+];
+
+// cube2用の6面画像（cubeImagesで使われていない画像を選択）
+export const cube2Images: string[] = [
+  "/exhibitionimage/edge_color.png",
+  "/exhibitionimage/ari.png",
+  "/exhibitionimage/medeia_art.png",
+  "/exhibitionimage/stepping_stones.png",
+  "/exhibitionimage/vrescape.png",
   "/QRcode.png?v2",
 ];
 

@@ -8,7 +8,8 @@
     ],
     "rewrites": [
       { "source": "/cube", "destination": "/cube.html" },
-      { "source": "/exhibition", "destination": "/exhibition.html" }
+      { "source": "/exhibition", "destination": "/exhibition.html" },
+      { "source": "/cube-2", "destination": "/cube-2.html" }
     ]
   }
 }
