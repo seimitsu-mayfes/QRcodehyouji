@@ -1,20 +1,52 @@
 'use client';
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { exhibitionItems } from "./exhibition.data";
 import { motion, AnimatePresence } from "framer-motion";
 
 function CustomVideo({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // 動画要素がビューポートに表示されているかを検出
+  useEffect(() => {
+    if (!videoRef.current) return;
+    
+    // 現在の要素を変数に保存
+    const currentVideo = videoRef.current;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          // 動画が表示されている場合は再生し、そうでなければ一時停止
+          if (entry.isIntersecting) {
+            currentVideo?.play().catch(e => console.log('動画の再生に失敗:', e));
+          } else {
+            currentVideo?.pause();
+          }
+        });
+      },
+      { threshold: 0.1 } // 10%以上表示されていれば再生する
+    );
+    
+    observer.observe(currentVideo);
+    
+    return () => {
+      observer.unobserve(currentVideo);
+    };
+  }, []);
+  
   return (
     <div style={{ position: "relative", width: 800, height: 500 }}>
       <video
+        ref={videoRef}
         src={src}
         width={800}
         height={500}
-        autoPlay
-        loop
+        preload="metadata"
         muted
+        loop
+        playsInline
         style={{ borderRadius: 16, objectFit: "contain", width: "100%", height: "100%" }}
       />
     </div>
@@ -23,15 +55,94 @@ function CustomVideo({ src }: { src: string }) {
 
 export default function Home() {
   const [current, setCurrent] = useState(0);
+  const [showLongVideo, setShowLongVideo] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % exhibitionItems.length);
+    // ロング動画中はスライド進行しない
+    if (showLongVideo) return;
+    
+    let timer: NodeJS.Timeout;
+    
+    // ブラウザのvisibilityが変わるたびに処理を最適化
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // タブが非表示のときはタイマーをクリアして無駄なリソース消費を防ぐ
+        clearInterval(timer);
+      } else {
+        // タブが表示されたらタイマーを再開
+        clearInterval(timer); // 念のため古いタイマーをクリア
+        timer = setInterval(() => {
+          setCurrent((prev) => {
+            if (prev + 1 === exhibitionItems.length) {
+              setShowLongVideo(true);
+              return 0; // 一周したらリセット
+            }
+            return (prev + 1) % exhibitionItems.length;
+          });
+        }, 5000);
+      }
+    };
+
+    // 初期設定
+    timer = setInterval(() => {
+      setCurrent((prev) => {
+        if (prev + 1 === exhibitionItems.length) {
+          setShowLongVideo(true);
+          return 0; // 一周したらリセット
+        }
+        return (prev + 1) % exhibitionItems.length;
+      });
     }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+
+    // visibilityの変更を監視
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // クリーンアップ関数
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [showLongVideo]);
+
+  // ロング動画が終わったらスライドショーに戻す
+  const handleLongVideoEnd = () => {
+    setShowLongVideo(false);
+    setCurrent(0);
+  };
 
   const item = exhibitionItems[current];
+
+  if (showLongVideo) {
+    return (
+      <div
+        className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+        style={{ width: "100vw", height: "100vh", overflow: "hidden" }}
+      >
+        <video
+          ref={videoRef}
+          src="/exhibitionimage/media_art_long.mp4"
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          controls={false}
+          onEnded={handleLongVideoEnd}
+          onError={(e) => {
+            console.error("動画の読み込みエラー:", e);
+            // エラー発生時は5秒後にスライドショーに戻す
+            setTimeout(handleLongVideoEnd, 5000);
+          }}
+          style={{
+            width: "100vw",
+            height: "100vh",
+            objectFit: "cover",
+            background: "black",
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen w-full flex items-stretch justify-stretch bg-gradient-to-br from-gray-100 via-white to-gray-200 dark:from-[#181818] dark:via-[#232323] dark:to-[#222] relative">
